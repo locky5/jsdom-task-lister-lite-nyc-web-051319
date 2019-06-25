@@ -5,6 +5,10 @@ document.addEventListener("DOMContentLoaded", () => {
   newInput.id = "duration-input"
   taskForm.insertBefore(newInput, taskForm.childNodes[2])
 
+  const sortButton = document.createElement('button')
+  sortButton.innerText = 'Sort by priority'
+  list.appendChild(sortButton)
+
   taskForm.addEventListener('submit',
   function(e){
     e.preventDefault()
@@ -50,6 +54,23 @@ document.addEventListener("DOMContentLoaded", () => {
       newEl2.contentEditable = true;
     })
     newEl3.appendChild(editElement)
+
+    var taskArr = Array.from(document.getElementsByTagName('li'))
+    sortButton.addEventListener('click', function(e) {
+      let sortedArr = taskArr.sort(function(a,b) {
+        return (a.style.color < b.style.color) ? 1 : -1
+      })
+      let child = list.lastElementChild;
+      while (child) {
+        list.removeChild(child);
+        child = list.lastElementChild;
+      }
+      for (var i = 0; i < sortedArr.length; i++) {
+        let taskItem = sortedArr[i]
+        list.appendChild(sortedArr[i], list.childNodes[i])
+        list.appendChild(newEl3)
+      }
+    })
 
     deleteElement.addEventListener('click',
     function(e){
